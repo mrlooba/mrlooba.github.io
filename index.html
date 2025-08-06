@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Inter:wght@400&display=swap" rel="stylesheet" />
+
+    <title>Bio - Kevin Ilhamsyah</title>
+
+    <style>
+      /* Menggunakan font Lexend untuk judul, lebih modern */
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #111827; /* Dark background */
+      }
+      h1,
+      h2,
+      .font-lexend {
+        font-family: 'Lexend', sans-serif;
+      }
+
+      /* Animasi untuk elemen */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes popIn {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        80% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Menerapkan animasi dengan delay */
+      .animate-pop-in {
+        animation: popIn 0.6s ease-out forwards;
+      }
+      .animate-fade-in-1 {
+        animation: fadeIn 0.5s 0.2s ease-out forwards;
+        opacity: 0;
+      }
+      .animate-fade-in-2 {
+        animation: fadeIn 0.5s 0.4s ease-out forwards;
+        opacity: 0;
+      }
+      .animate-fade-in-3 {
+        animation: fadeIn 0.5s 0.6s ease-out forwards;
+        opacity: 0;
+      }
+      .animate-fade-in-4 {
+        animation: fadeIn 0.5s 0.8s ease-out forwards;
+        opacity: 0;
+      }
+
+      /* Efek glow untuk kartu */
+      .card-glow {
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.2), 0 0 30px rgba(139, 92, 246, 0.2);
+      }
+
+      /* Gradient untuk tombol */
+      .btn-gradient {
+        background-image: linear-gradient(to right, #ec4899, #8b5cf6);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+    <!-- Kartu Biodata Utama -->
+    <div class="bg-gray-800 bg-opacity-80 backdrop-blur-sm w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-gray-700 card-glow">
+      <!-- Header dengan Gradient Keren -->
+      <div class="h-44 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 relative">
+        <!-- Foto Profil dengan animasi -->
+        <div class="absolute top-[calc(11rem-4rem)] left-1/2 -translate-x-1/2">
+          <img
+            src="https://placehold.co/128x128/FFFFFF/1F2937?text=Spill+Foto"
+            alt="Foto Profil Kevin Ilhamsyah"
+            class="w-32 h-32 rounded-full border-4 border-gray-800 shadow-lg animate-pop-in"
+            onerror="this.onerror=null;this.src='https://placehold.co/128x128/FFFFFF/333333?text=Error';"
+          />
+        </div>
+      </div>
+
+      <!-- Konten Biodata -->
+      <div class="pt-24 px-6 pb-8 text-center">
+        <!-- Nama dan Role -->
+        <h1 class="text-4xl font-bold text-white animate-fade-in-1">Kevin</h1>
+        <p class="text-lg text-purple-300 mt-2 font-lexend animate-fade-in-2">Full-Time Dreamer</p>
+
+        <!-- Bio Singkat -->
+        <p class="mt-6 text-gray-300 max-w-lg mx-auto animate-fade-in-3">Lagi suka explore hal-hal baru di dunia digital. Kalo lagi ga mancing, paling scroll Facebook atau cari inspirasi. Let's connect! ✨</p>
+
+        <!-- Tombol Aksi -->
+        <div class="mt-8 animate-fade-in-4">
+          <a href="mailto:emailkamu@example.com" class="btn-gradient text-white font-bold py-3 px-8 rounded-full transition-transform transform hover:scale-110 inline-block shadow-lg shadow-purple-500/50"> Reach me </a>
+        </div>
+      </div>
+
+      <!-- Bagian Sosial Media -->
+      <div class="bg-gray-900 bg-opacity-50 border-t border-gray-700 px-6 py-6">
+        <h2 class="text-center text-sm font-semibold text-gray-400 mb-4 font-lexend">Find me on the Facebook</h2>
+        <div class="flex justify-center items-center space-x-6">
+          <!-- Link Facebook sudah diupdate -->
+          <a href="https://facebook.com/crucifykevin" target="_blank" class="text-gray-400 hover:text-white transition-all transform hover:scale-125">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill-rule="evenodd"
+                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sr-only">Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
