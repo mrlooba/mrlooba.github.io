@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -11,10 +12,10 @@
     <title>Bio - Kevin Ilhamsyah</title>
 
     <style>
-      /* Menggunakan font Lexend untuk judul, lebih modern */
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #111827; /* Dark background */
+        background-color: #111827; /* Latar belakang gelap */
+        overflow: hidden; /* Dikunci dulu saat splash/enter screen aktif */
       }
       h1,
       h2,
@@ -22,7 +23,7 @@
         font-family: 'Lexend', sans-serif;
       }
 
-      /* Animasi untuk elemen */
+      /* Animasi masuk untuk elemen biodata */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -68,29 +69,90 @@
         opacity: 0;
       }
 
-      /* Efek glow untuk kartu */
+      /* Efek glow/bercahaya untuk kartu utama */
       .card-glow {
         box-shadow: 0 0 15px rgba(236, 72, 153, 0.2), 0 0 30px rgba(139, 92, 246, 0.2);
       }
 
-      /* Gradient untuk tombol */
+      /* Efek glow untuk pemutar musik */
+      .player-glow {
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Gradien warna tombol */
       .btn-gradient {
         background-image: linear-gradient(to right, #ec4899, #8b5cf6);
       }
+
+      /* Animasi denyut tombol Enter */
+      @keyframes pulseGlow {
+        0%, 100% {
+          transform: scale(1);
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
+        }
+      }
+      .pulse-button {
+        animation: pulseGlow 2s infinite ease-in-out;
+      }
+
+      /* Animasi batang visualizer musik */
+      @keyframes bounce {
+        10%, 90% { transform: scaleY(0.3); }
+        50% { transform: scaleY(1); }
+      }
+      .bar {
+        animation: bounce 0.8s ease-in-out infinite;
+        transform-origin: bottom;
+      }
+      .bar:nth-child(2) { animation-delay: 0.15s; }
+      .bar:nth-child(3) { animation-delay: 0.3s; }
+      .bar:nth-child(4) { animation-delay: 0.45s; }
     </style>
   </head>
-  <body class="bg-gray-900 flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
-    <!-- Kartu Biodata Utama -->
-    <div class="bg-gray-800 bg-opacity-80 backdrop-blur-sm w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-gray-700 card-glow">
+  <body class="bg-gray-900 flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8 pb-28 sm:pb-8">
+    
+    <!-- LAYAR UTAMA: SPLASH ENTER SCREEN (Mencegah Pemblokiran Autoplay) -->
+    <div id="enter-screen" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-[100] transition-all duration-1000 ease-in-out">
+      <!-- Background Efek Lampu Gradasi di Belakang -->
+      <div class="absolute w-72 h-72 rounded-full bg-purple-600 blur-[100px] opacity-30 top-1/4 left-1/4"></div>
+      <div class="absolute w-72 h-72 rounded-full bg-pink-600 blur-[100px] opacity-30 bottom-1/4 right-1/4"></div>
+      
+      <!-- Konten Box -->
+      <div class="text-center z-10 p-6 max-w-sm">
+        <h2 class="text-2xl font-bold text-gray-400 mb-2 font-lexend tracking-wider">WELCOME TO</h2>
+        <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 font-lexend mb-8 tracking-tight">KEVIN'S SPACE</h1>
+        
+        <p class="text-sm text-gray-500 mb-8 font-medium">Aktifkan volume suara untuk pengalaman vibe penuh ✨</p>
+        
+        <!-- Tombol Masuk yang memicu musik -->
+        <button id="enter-btn" class="pulse-button btn-gradient text-white text-lg font-bold py-4 px-10 rounded-full transition-all duration-300 focus:outline-none">
+          Click to Vibe
+        </button>
+      </div>
+    </div>
+
+    <!-- Element Audio untuk memutar lagu NEFFEX - Careless -->
+    <!-- Menggunakan file musik lokal music.mp3 sebagai sumber utama, dan link cloud sebagai cadangan jika file belum diupload -->
+    <audio id="bg-music" loop>
+      <source src="music.mp3" type="audio/mpeg" />
+      <source src="https://archive.org/download/neffex-careless/NEFFEX%20-%20Careless.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Konten Biodata Utama (Tersembunyi di awal agar transisinya keren) -->
+    <div id="main-content" class="bg-gray-800 bg-opacity-80 backdrop-blur-sm w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-gray-700 card-glow opacity-0 transform translate-y-10 transition-all duration-1000">
       <!-- Header dengan Gradient Keren -->
       <div class="h-44 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 relative">
-        <!-- Foto Profil dengan animasi -->
+        <!-- Foto Profil dengan animasi (menggunakan file lokal profil.jpg agar stabil di HP, dengan fallback drive kamu) -->
         <div class="absolute top-[calc(11rem-4rem)] left-1/2 -translate-x-1/2">
           <img
-            src="kevin.jpg"
+            src="profil.jpg"
             alt="Foto Profil Kevin Ilhamsyah"
             class="w-32 h-32 rounded-full border-4 border-gray-800 shadow-lg animate-pop-in object-cover"
-            onerror="this.onerror=null;this.src='https://placehold.co/128x128/FFFFFF/333333?text=Error';"
+            onerror="this.onerror=null;this.src='https://drive.google.com/uc?export=view&id=1pVXiw_cFM32HH9tjMALwy-e6vuw2H8PA';"
           />
         </div>
       </div>
@@ -112,9 +174,9 @@
 
       <!-- Bagian Sosial Media -->
       <div class="bg-gray-900 bg-opacity-50 border-t border-gray-700 px-6 py-6">
-        <h2 class="text-center text-sm font-semibold text-gray-400 mb-4 font-lexend">Find me on the Facebook</h2>
+        <h2 class="text-center text-sm font-semibold text-gray-400 mb-4 font-lexend">Find me on Facebook</h2>
         <div class="flex justify-center items-center space-x-6">
-          <!-- Link Facebook sudah diupdate -->
+          <!-- Link Facebook -->
           <a href="https://facebook.com/crucifykevin" target="_blank" class="text-gray-400 hover:text-white transition-all transform hover:scale-125">
             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -128,5 +190,124 @@
         </div>
       </div>
     </div>
+
+    <!-- Floating Glassmorphism Music Player (Pojok Kanan Bawah) -->
+    <div id="music-player" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:w-80 bg-gray-800 bg-opacity-90 backdrop-blur-md border border-gray-700 p-4 rounded-2xl flex items-center justify-between player-glow z-50 opacity-0 transition-opacity duration-1000">
+      <div class="flex items-center space-x-3">
+        <!-- Animasi Piringan Hitam / Vinyl Musik -->
+        <div id="music-vinyl" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs shadow-md transition-transform duration-1000 ease-linear">
+          🎵
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white font-lexend truncate w-40 sm:w-44">Careless</h4>
+          <p class="text-xs text-purple-300">NEFFEX</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- Visualizer Bar -->
+        <div id="visualizer" class="flex items-end space-x-0.5 h-6 w-8 opacity-50 hidden">
+          <span class="bar w-1 h-4 bg-pink-500 rounded-full"></span>
+          <span class="bar w-1 h-6 bg-purple-500 rounded-full"></span>
+          <span class="bar w-1 h-3 bg-pink-500 rounded-full"></span>
+          <span class="bar w-1 h-5 bg-purple-500 rounded-full"></span>
+        </div>
+
+        <!-- Tombol Play/Pause -->
+        <button id="play-btn" class="w-10 h-10 rounded-full bg-purple-600 hover:bg-purple-700 flex items-center justify-center text-white focus:outline-none transition-transform active:scale-95">
+          <!-- Ikon Play -->
+          <svg id="play-icon" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          <!-- Ikon Pause -->
+          <svg id="pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Script Logika Masuk & Musik -->
+    <script>
+      const audio = document.getElementById('bg-music');
+      const enterScreen = document.getElementById('enter-screen');
+      const enterBtn = document.getElementById('enter-btn');
+      const mainContent = document.getElementById('main-content');
+      const musicPlayer = document.getElementById('music-player');
+
+      const playBtn = document.getElementById('play-btn');
+      const playIcon = document.getElementById('play-icon');
+      const pauseIcon = document.getElementById('pause-icon');
+      const visualizer = document.getElementById('visualizer');
+      const vinyl = document.getElementById('music-vinyl');
+
+      let isPlaying = false;
+      let rotationAngle = 0;
+      let rotationInterval;
+
+      // Fungsi rotasi vinyl
+      function startRotation() {
+        if (rotationInterval) clearInterval(rotationInterval);
+        rotationInterval = setInterval(() => {
+          rotationAngle += 2;
+          vinyl.style.transform = `rotate(${rotationAngle}deg)`;
+        }, 20);
+      }
+
+      function stopRotation() {
+        clearInterval(rotationInterval);
+      }
+
+      // Fungsi toggle play/pause manual
+      function togglePlay() {
+        if (isPlaying) {
+          audio.pause();
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.add('hidden');
+          visualizer.classList.add('hidden');
+          stopRotation();
+          isPlaying = false;
+        } else {
+          audio.play().then(() => {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+            visualizer.classList.remove('hidden');
+            startRotation();
+            isPlaying = true;
+          });
+        }
+      }
+
+      // Event click tombol masuk (Trigger Transisi Utama dan Autoplay Berhasil!)
+      enterBtn.addEventListener('click', () => {
+        // 1. Putar Musik (Berhasil diputar karena dipicu interaksi klik)
+        audio.play().then(() => {
+          isPlaying = true;
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          visualizer.classList.remove('hidden');
+          startRotation();
+        }).catch(err => {
+          console.log("Audio play gagal:", err);
+        });
+
+        // 2. Hilangkan Screen Pembuka dengan transisi memudar
+        enterScreen.classList.add('opacity-0', 'pointer-events-none');
+        
+        // 3. Tampilkan Konten Utama & Player Musik
+        setTimeout(() => {
+          enterScreen.remove(); // Hapus screen pembuka agar tidak memakan memori
+          document.body.style.overflow = 'auto'; // Aktifkan scroll halaman kembali
+          
+          mainContent.classList.remove('opacity-0', 'translate-y-10');
+          musicPlayer.classList.remove('opacity-0');
+        }, 800);
+      });
+
+      // Pasang event listener ke tombol pemutar manual
+      playBtn.addEventListener('click', togglePlay);
+    </script>
   </body>
 </html>
+
+```
