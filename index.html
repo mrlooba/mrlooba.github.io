@@ -3,269 +3,1199 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta
+      name="description"
+      content="Kevin Ilhamsyah — Digital Explorer, Web Builder, dan Full-Time Dreamer dari Dumai, Indonesia."
+    />
+    <meta property="og:title" content="Kevin Ilhamsyah — Personal Space" />
+    <meta
+      property="og:description"
+      content="Eksplorasi digital, web automation, dan catatan personal Kevin Ilhamsyah."
+    />
+    <meta property="og:type" content="website" />
+
+    <title>Kevin Ilhamsyah — Personal Space</title>
+
+    <!-- Favicon SVG Soft Orange -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0b0d'/%3E%3Crect x='1' y='1' width='30' height='30' rx='5' fill='none' stroke='%2326262c' stroke-width='2'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fb923c' font-family='monospace' font-weight='700' font-size='14'%3EKI%3C/text%3E%3C/svg%3E"
+    />
+
+    <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Inter:wght@400&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <title>Bio - Kevin Ilhamsyah</title>
+    <!-- Iconify Web Component -->
+    <script
+      src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"
+      defer
+    ></script>
 
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #111827;
-        overflow: hidden;
-      }
-      h1,
-      h2,
-      .font-lexend {
-        font-family: 'Lexend', sans-serif;
+      :root {
+        /* Surfaces - Doom 64 Matte Dark Hierarchy */
+        --bg-canvas: #0b0b0d;
+        --bg-surface: #141417;
+        --bg-elevated: #1c1c21;
+        --bg-input: #18181c;
+
+        /* Borders and Dividers */
+        --border-subtle: #26262c;
+        --border-strong: #3a3a42;
+
+        /* Soft Orange Accents (Aesthetic and Non-Neon) */
+        --accent-primary: #fb923c;
+        --accent-hover: #f97316;
+        --accent-soft: #fdba74;
+        --accent-muted: rgba(251, 146, 60, 0.12);
+        --accent-fg: #0b0b0d;
+
+        /* Typography Colors */
+        --text-primary: #f4f4f6;
+        --text-secondary: #a1a1aa;
+        --text-muted: #6e6e77;
+
+        /* Semantic Status (Muted Doom 64 Palette) */
+        --status-success: #689f38;
+        --status-danger: #e53935;
+
+        /* Fonts */
+        --font-sans: 'Plus Jakarta Sans', 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
       }
 
-      /* Animasi masuk elemen */
-      @keyframes fadeIn {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        min-height: 100dvh;
+        background-color: var(--bg-canvas);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Tactical Subtle Grid Backdrop */
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 16px 96px;
+        background-image: radial-gradient(
+            circle at 50% 0%,
+            rgba(251, 146, 60, 0.06) 0%,
+            transparent 55%
+          ),
+          linear-gradient(to right, rgba(38, 38, 44, 0.22) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(38, 38, 44, 0.22) 1px, transparent 1px);
+        background-size: 100% 100%, 32px 32px, 32px 32px;
+      }
+
+      .mono {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Main Card Shell */
+      #main-shell {
+        width: 100%;
+        max-width: 540px;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      #main-shell.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Top Status Bar */
+      .card-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background-color: var(--bg-elevated);
+        border-bottom: 1px solid var(--border-subtle);
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background-color: var(--status-success);
+      }
+
+      /* Profile Header Section */
+      .profile-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .avatar-frame {
+        position: relative;
+        width: 76px;
+        height: 76px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        background-color: var(--bg-elevated);
+        border: 1px solid var(--border-strong);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .avatar-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .avatar-fallback {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: var(--accent-soft);
+        font-family: var(--font-mono);
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .profile-identity {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .profile-name-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .profile-name {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+      }
+
+      .role-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 2px 8px;
+        background-color: var(--accent-muted);
+        border: 1px solid rgba(251, 146, 60, 0.28);
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent-soft);
+      }
+
+      .profile-handle {
+        margin-top: 3px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .profile-meta {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      /* Doom 64 Tab Navigation */
+      .tab-bar {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 20px;
+        background-color: var(--bg-canvas);
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .tab-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          color 160ms cubic-bezier(0.2, 0, 0, 1),
+          border-color 160ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .tab-btn:hover {
+        background-color: var(--bg-elevated);
+        color: var(--text-primary);
+      }
+
+      .tab-btn[aria-selected='true'] {
+        background-color: var(--accent-primary);
+        color: var(--accent-fg);
+        font-weight: 600;
+      }
+
+      /* Tab Panels */
+      .tab-panel {
+        display: none;
+        padding: 20px;
+      }
+
+      .tab-panel.is-active {
+        display: block;
+        animation: panelReveal 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes panelReveal {
         from {
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(6px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
-      @keyframes popIn {
-        0% {
-          transform: scale(0.5);
-          opacity: 0;
-        }
-        80% {
-          transform: scale(1.05);
-          opacity: 1;
-        }
-        100% {
-          transform: scale(1);
-        }
+
+      .bio-text {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.65;
       }
 
-      .animate-pop-in {
-        animation: popIn 0.6s ease-out forwards;
-      }
-      .animate-fade-in-1 {
-        animation: fadeIn 0.5s 0.2s ease-out forwards;
-        opacity: 0;
-      }
-      .animate-fade-in-2 {
-        animation: fadeIn 0.5s 0.4s ease-out forwards;
-        opacity: 0;
-      }
-      .animate-fade-in-3 {
-        animation: fadeIn 0.5s 0.6s ease-out forwards;
-        opacity: 0;
-      }
-      .animate-fade-in-4 {
-        animation: fadeIn 0.5s 0.8s ease-out forwards;
-        opacity: 0;
+      .bio-text strong {
+        color: var(--text-primary);
+        font-weight: 600;
       }
 
-      .card-glow {
-        box-shadow: 0 0 15px rgba(236, 72, 153, 0.2), 0 0 30px rgba(139, 92, 246, 0.2);
-      }
-      .player-glow {
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-      }
-      .btn-gradient {
-        background-image: linear-gradient(to right, #ec4899, #8b5cf6);
+      /* Action Buttons */
+      .action-row {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
-      @keyframes pulseGlow {
-        0%, 100% {
-          transform: scale(1);
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 14px;
+        border-radius: 5px;
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: background-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          border-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          transform 120ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .btn:active {
+        transform: scale(0.985);
+      }
+
+      .btn-primary {
+        background-color: var(--accent-primary);
+        color: var(--accent-fg);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--accent-hover);
+      }
+
+      .btn-secondary {
+        background-color: var(--bg-elevated);
+        border-color: var(--border-subtle);
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--border-strong);
+        background-color: #222228;
+      }
+
+      /* Structured List Items (Projects & Interests) */
+      .item-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .list-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        background-color: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: 5px;
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          background-color 160ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      a.list-row:hover {
+        border-color: var(--accent-soft);
+        background-color: #202026;
+      }
+
+      .list-row-left {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .list-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        color: var(--accent-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .list-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .list-desc {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+      }
+
+      .list-badge {
+        font-size: 11px;
+        color: var(--text-muted);
+        padding: 2px 6px;
+        border: 1px solid var(--border-subtle);
+        border-radius: 4px;
+        background-color: var(--bg-surface);
+        white-space: nowrap;
+      }
+
+      /* Footer Social Bar */
+      .card-footer {
+        padding: 14px 20px;
+        background-color: var(--bg-canvas);
+        border-top: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .footer-label {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .social-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .social-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 5px;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 160ms cubic-bezier(0.2, 0, 0, 1),
+          border-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          background-color 160ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .social-link:hover {
+        color: var(--text-primary);
+        border-color: var(--accent-soft);
+        background-color: var(--bg-elevated);
+      }
+
+      /* Tactical Floating Audio Dock */
+      #audio-dock {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        width: calc(100% - 32px);
+        max-width: 340px;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-strong);
+        border-radius: 6px;
+        padding: 10px 12px;
+        z-index: 40;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      #audio-dock.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .audio-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .audio-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .audio-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 5px;
+        background-color: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        color: var(--accent-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: border-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          background-color 160ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      #audio-dock.is-playing .audio-badge {
+        background-color: var(--accent-muted);
+        border-color: rgba(251, 146, 60, 0.4);
+      }
+
+      .track-info {
+        min-width: 0;
+      }
+
+      .track-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .track-artist {
+        font-size: 11px;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .audio-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        border: 1px solid var(--border-subtle);
+        background-color: var(--bg-elevated);
+        color: var(--text-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 160ms cubic-bezier(0.2, 0, 0, 1),
+          border-color 160ms cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .icon-btn:hover {
+        border-color: var(--border-strong);
+      }
+
+      .icon-btn.play-toggle {
+        background-color: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: var(--accent-fg);
+      }
+
+      .icon-btn.play-toggle:hover {
+        background-color: var(--accent-hover);
+      }
+
+      .audio-progress-wrap {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .progress-rail {
+        flex: 1;
+        height: 4px;
+        background-color: var(--bg-elevated);
+        border-radius: 2px;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background-color: var(--accent-primary);
+        transition: width 120ms linear;
+      }
+
+      .time-readout {
+        font-size: 10.5px;
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 480px) {
+        .profile-header {
+          padding: 16px;
+          gap: 12px;
         }
-        50% {
-          transform: scale(1.05);
-          box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
+        .avatar-frame {
+          width: 64px;
+          height: 64px;
+        }
+        .tab-bar {
+          padding: 8px 16px;
+          overflow-x: auto;
+        }
+        .tab-panel {
+          padding: 16px;
+        }
+        .card-footer {
+          padding: 12px 16px;
+        }
+        #audio-dock {
+          left: 16px;
+          right: 16px;
+          max-width: none;
         }
       }
-      .pulse-button {
-        animation: pulseGlow 2s infinite ease-in-out;
-      }
-
-      @keyframes bounce {
-        10%, 90% { transform: scaleY(0.3); }
-        50% { transform: scaleY(1); }
-      }
-      .bar {
-        animation: bounce 0.8s ease-in-out infinite;
-        transform-origin: bottom;
-      }
-      .bar:nth-child(2) { animation-delay: 0.15s; }
-      .bar:nth-child(3) { animation-delay: 0.3s; }
-      .bar:nth-child(4) { animation-delay: 0.45s; }
     </style>
   </head>
-  <body class="bg-gray-900 flex items-center justify-center min-h-screen p-3 sm:p-6 lg:p-8 pb-32 sm:pb-8">
-    
-    <div id="enter-screen" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-[100] transition-all duration-1000 ease-in-out">
-      <div class="absolute w-72 h-72 rounded-full bg-purple-600 blur-[100px] opacity-30 top-1/4 left-1/4"></div>
-      <div class="absolute w-72 h-72 rounded-full bg-pink-600 blur-[100px] opacity-30 bottom-1/4 right-1/4"></div>
-      
-      <div class="text-center z-10 p-6 max-w-sm">
-        <h2 class="text-2xl font-bold text-gray-400 mb-2 font-lexend tracking-wider">WELCOME TO</h2>
-        <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 font-lexend mb-8 tracking-tight">KEVIN'S SPACE</h1>
-        <p class="text-sm text-gray-500 mb-8 font-medium">Aktifkan volume suara untuk pengalaman vibe penuh ✨</p>
-        <button id="enter-btn" class="pulse-button btn-gradient text-white text-lg font-bold py-4 px-10 rounded-full transition-all duration-300 focus:outline-none">
-          Click to Vibe
-        </button>
-      </div>
-    </div>
-
-    <audio id="bg-music" loop>
+  <body>
+    <!-- Background Audio (preload="none" untuk FCP optimal) -->
+    <audio id="bg-music" loop preload="none">
       <source src="music.mp3" type="audio/mpeg" />
-      <source src="https://archive.org/download/neffex-careless/NEFFEX%20-%20Careless.mp3" type="audio/mpeg" />
+      <source
+        src="https://archive.org/download/neffex-careless/NEFFEX%20-%20Careless.mp3"
+        type="audio/mpeg"
+      />
     </audio>
 
-    <div id="main-content" class="bg-gray-800 bg-opacity-80 backdrop-blur-sm w-11/12 sm:w-full md:max-w-xl rounded-3xl shadow-2xl overflow-hidden border border-gray-700 card-glow opacity-0 transform translate-y-10 transition-all duration-1000">
-      <div class="h-44 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 relative">
-        <div class="absolute top-[calc(11rem-4rem)] left-1/2 -translate-x-1/2">
+    <!-- Main Profile Card -->
+    <main id="main-shell" aria-label="Profil Kevin Ilhamsyah">
+      <div class="card-topbar">
+        <span class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>ONLINE</span>
+        </span>
+        <span class="mono">mrlooba.github.io</span>
+      </div>
+
+      <header class="profile-header">
+        <div class="avatar-frame">
           <img
+            id="avatar-img"
             src="kevin.jpg"
             alt="Foto Profil Kevin Ilhamsyah"
-            class="w-32 h-32 rounded-full border-4 border-gray-800 shadow-lg animate-pop-in object-cover"
-            onerror="this.onerror=null;this.src='https://drive.google.com/uc?export=view&id=1pVXiw_cFM32HH9tjMALwy-e6vuw2H8PA';"
+            onerror="handleAvatarFallback(this)"
           />
+          <div id="avatar-fallback" class="avatar-fallback" aria-hidden="true">
+            <iconify-icon icon="lucide:user" width="20" height="20"></iconify-icon>
+            <span>KI</span>
+          </div>
         </div>
-      </div>
 
-      <div class="pt-24 px-4 sm:px-6 pb-8 text-center">
-        <h1 class="text-4xl font-bold text-white animate-fade-in-1">Kevin</h1>
-        <p class="text-lg text-purple-300 mt-2 font-lexend animate-fade-in-2">Full-Time Dreamer</p>
-
-        <p class="mt-6 text-gray-300 max-w-lg mx-auto animate-fade-in-3 px-2 text-sm sm:text-base">Lagi suka explore hal-hal baru di dunia digital. Kalo lagi ga mancing, paling scroll Facebook atau cari inspirasi. Let's connect! ✨</p>
-
-        <div class="mt-8 animate-fade-in-4">
-          <a href="mailto:warriorofadorable@gmail.com" class="btn-gradient text-white font-bold py-3 px-8 rounded-full transition-transform transform hover:scale-110 inline-block shadow-lg shadow-purple-500/50 text-sm sm:text-base"> Reach me </a>
+        <div class="profile-identity">
+          <div class="profile-name-row">
+            <h1 class="profile-name">Kevin Ilhamsyah</h1>
+            <span class="role-tag">
+              <iconify-icon icon="lucide:sparkles" width="12" height="12"></iconify-icon>
+              <span>Full-Time Dreamer</span>
+            </span>
+          </div>
+          <p class="profile-handle mono">@crucifykevin</p>
+          <div class="profile-meta">
+            <span class="meta-item">
+              <iconify-icon icon="lucide:map-pin" width="13" height="13"></iconify-icon>
+              <span>Dumai, Riau</span>
+            </span>
+            <span class="meta-item">
+              <iconify-icon icon="lucide:compass" width="13" height="13"></iconify-icon>
+              <span>Digital Explorer</span>
+            </span>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div class="bg-gray-900 bg-opacity-50 border-t border-gray-700 px-6 py-6">
-        <h2 class="text-center text-sm font-semibold text-gray-400 mb-4 font-lexend">Find me on Facebook</h2>
-        <div class="flex justify-center items-center space-x-6">
-          <a href="https://facebook.com/crucifykevin" target="_blank" class="text-gray-400 hover:text-white transition-all transform hover:scale-125">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                fill-rule="evenodd"
-                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sr-only">Facebook</span>
+      <!-- Doom 64 Tab Navigation -->
+      <nav class="tab-bar" role="tablist" aria-label="Navigasi Profil">
+        <button
+          class="tab-btn"
+          role="tab"
+          id="tab-overview"
+          aria-controls="panel-overview"
+          aria-selected="true"
+          data-tab="overview"
+        >
+          <iconify-icon icon="lucide:user-check" width="14" height="14"></iconify-icon>
+          <span>Overview</span>
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          id="tab-builds"
+          aria-controls="panel-builds"
+          aria-selected="false"
+          data-tab="builds"
+        >
+          <iconify-icon icon="lucide:terminal" width="14" height="14"></iconify-icon>
+          <span>Builds</span>
+        </button>
+        <button
+          class="tab-btn"
+          role="tab"
+          id="tab-interests"
+          aria-controls="panel-interests"
+          aria-selected="false"
+          data-tab="interests"
+        >
+          <iconify-icon icon="lucide:layers" width="14" height="14"></iconify-icon>
+          <span>Off-Duty</span>
+        </button>
+      </nav>
+
+      <!-- Panel 1: Overview -->
+      <section
+        id="panel-overview"
+        class="tab-panel is-active"
+        role="tabpanel"
+        aria-labelledby="tab-overview"
+      >
+        <p class="bio-text">
+          Lagi suka eksplorasi hal-hal baru di dunia digital, mulai dari eksperimen web ringan
+          sampai otomasi alur kerja harian. Kalau lagi tidak mancing atau merawat akuarium, paling
+          scroll Facebook atau cari inspirasi baru. <strong>Let's connect.</strong>
+        </p>
+
+        <div class="action-row">
+          <a href="mailto:warriorofadorable@gmail.com" class="btn btn-primary">
+            <iconify-icon icon="lucide:mail" width="15" height="15"></iconify-icon>
+            <span>Reach Me</span>
+          </a>
+          <button type="button" id="copy-email-btn" class="btn btn-secondary">
+            <iconify-icon id="copy-icon" icon="lucide:copy" width="15" height="15"></iconify-icon>
+            <span id="copy-label">Copy Email</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Panel 2: Builds -->
+      <section
+        id="panel-builds"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="tab-builds"
+      >
+        <div class="item-list">
+          <a
+            href="https://typer-vin.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="list-row"
+          >
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:keyboard" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">TyperVin</div>
+                <div class="list-desc">
+                  Aplikasi web uji kecepatan dan akurasi mengetik dengan antarmuka minimalis.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">LIVE</span>
+          </a>
+
+          <div class="list-row">
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:cpu" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">Web & Workflow Automation</div>
+                <div class="list-desc">
+                  Userscript Tampermonkey, integrasi bot Telegram/WhatsApp, dan pipeline data otomatis.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">STACK</span>
+          </div>
+
+          <a
+            href="https://github.com/crucifykevin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="list-row"
+          >
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:layout-template" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">mrlooba.github.io</div>
+                <div class="list-desc">
+                  Landing page personal berbasis arsitektur Doom 64 Soft Orange UI.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">v2.0</span>
           </a>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <div id="music-player" class="fixed bottom-4 right-4 browser-default left-4 sm:left-auto sm:w-80 bg-gray-800 bg-opacity-90 backdrop-blur-md border border-gray-700 p-4 rounded-2xl flex items-center justify-between player-glow z-50 opacity-0 transition-opacity duration-1000">
-      <div class="flex items-center space-x-3">
-        <div id="music-vinyl" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs shadow-md transition-transform duration-1000 ease-linear">
-          🎵
+      <!-- Panel 3: Off-Duty -->
+      <section
+        id="panel-interests"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="tab-interests"
+      >
+        <div class="item-list">
+          <div class="list-row">
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:fish" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">Fishing Setup</div>
+                <div class="list-desc">
+                  Eksplorasi spot mancing lokal dengan perlengkapan ultra-light carbon.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">OUTDOOR</span>
+          </div>
+
+          <div class="list-row">
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:droplets" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">Freshwater Aquascape</div>
+                <div class="list-desc">
+                  Setup tangki air tawar dengan tanaman hidup, udang hias, dan Betta.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">TANK</span>
+          </div>
+
+          <div class="list-row">
+            <div class="list-row-left">
+              <div class="list-icon">
+                <iconify-icon icon="lucide:gamepad-2" width="16" height="16"></iconify-icon>
+              </div>
+              <div>
+                <div class="list-title">PC & Mobile Gaming</div>
+                <div class="list-desc">
+                  Sesi santai di sela waktu luang bersama komunitas daring.
+                </div>
+              </div>
+            </div>
+            <span class="list-badge mono">PLAY</span>
+          </div>
         </div>
-        <div>
-          <h4 class="text-sm font-semibold text-white font-lexend truncate w-36 sm:w-44">Careless</h4>
-          <p class="text-xs text-purple-300">NEFFEX</p>
+      </section>
+
+      <!-- Footer Links -->
+      <footer class="card-footer">
+        <span class="footer-label">Find me online</span>
+        <div class="social-links">
+          <a
+            href="https://facebook.com/crucifykevin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <iconify-icon icon="lucide:facebook" width="14" height="14"></iconify-icon>
+            <span>Facebook</span>
+          </a>
+          <a
+            href="https://github.com/crucifykevin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <iconify-icon icon="lucide:github" width="14" height="14"></iconify-icon>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Floating Audio Dock -->
+    <aside id="audio-dock" aria-label="Pemutar Musik Latar">
+      <div class="audio-top">
+        <div class="audio-meta">
+          <div class="audio-badge" aria-hidden="true">
+            <iconify-icon id="disc-icon" icon="lucide:music" width="16" height="16"></iconify-icon>
+          </div>
+          <div class="track-info">
+            <div class="track-title">Careless</div>
+            <div class="track-artist">
+              <span>NEFFEX</span>
+              <span id="audio-status" class="mono">READY</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="audio-controls">
+          <button
+            type="button"
+            id="mute-btn"
+            class="icon-btn"
+            aria-label="Bisukan atau nyalakan suara"
+            title="Mute / Unmute"
+          >
+            <iconify-icon id="mute-icon" icon="lucide:volume-2" width="15" height="15"></iconify-icon>
+          </button>
+          <button
+            type="button"
+            id="play-btn"
+            class="icon-btn play-toggle"
+            aria-label="Putar atau jeda musik"
+            title="Play / Pause"
+          >
+            <iconify-icon id="play-icon" icon="lucide:play" width="15" height="15"></iconify-icon>
+          </button>
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
-        <div id="visualizer" class="flex items-end space-x-0.5 h-6 w-8 opacity-50 hidden">
-          <span class="bar w-1 h-4 bg-pink-500 rounded-full"></span>
-          <span class="bar w-1 h-6 bg-purple-500 rounded-full"></span>
-          <span class="bar w-1 h-3 bg-pink-500 rounded-full"></span>
-          <span class="bar w-1 h-5 bg-purple-500 rounded-full"></span>
+      <div class="audio-progress-wrap">
+        <div id="progress-rail" class="progress-rail" role="slider" aria-label="Progres audio">
+          <div id="progress-fill" class="progress-fill"></div>
         </div>
-
-        <button id="play-btn" class="w-10 h-10 rounded-full bg-purple-600 hover:bg-purple-700 flex items-center justify-center text-white focus:outline-none transition-transform active:scale-95">
-          <svg id="play-icon" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          <svg id="pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-          </svg>
-        </button>
+        <span id="time-readout" class="time-readout mono">00:00</span>
       </div>
-    </div>
+    </aside>
 
     <script>
-      const audio = document.getElementById('bg-music');
-      const enterScreen = document.getElementById('enter-screen');
-      const enterBtn = document.getElementById('enter-btn');
-      const mainContent = document.getElementById('main-content');
-      const musicPlayer = document.getElementById('music-player');
+      // 1. Mandatory Fullscreen JS Boot Intro ("Hamster Kaget x Gemini AI")
+      (function initBootIntro() {
+        if (document.getElementById('hk-gemini-boot-intro')) return;
 
-      const playBtn = document.getElementById('play-btn');
-      const playIcon = document.getElementById('play-icon');
-      const pauseIcon = document.getElementById('pause-icon');
-      const visualizer = document.getElementById('visualizer');
-      const vinyl = document.getElementById('music-vinyl');
+        const mainShell = document.getElementById('main-shell');
+        const audioDock = document.getElementById('audio-dock');
 
-      let isPlaying = false;
-      let rotationAngle = 0;
-      let rotationInterval;
-
-      function startRotation() {
-        if (rotationInterval) clearInterval(rotationInterval);
-        rotationInterval = setInterval(() => {
-          rotationAngle += 2;
-          vinyl.style.transform = `rotate(${rotationAngle}deg)`;
-        }, 20);
-      }
-
-      function stopRotation() {
-        clearInterval(rotationInterval);
-      }
-
-      function togglePlay() {
-        if (isPlaying) {
-          audio.pause();
-          playIcon.classList.remove('hidden');
-          pauseIcon.classList.add('hidden');
-          visualizer.classList.add('hidden');
-          stopRotation();
-          isPlaying = false;
-        } else {
-          audio.play().then(() => {
-            playIcon.classList.add('hidden');
-            pauseIcon.classList.remove('hidden');
-            visualizer.classList.remove('hidden');
-            startRotation();
-            isPlaying = true;
-          });
-        }
-      }
-
-      enterBtn.addEventListener('click', () => {
-        audio.play().then(() => {
-          isPlaying = true;
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          visualizer.classList.remove('hidden');
-          startRotation();
-        }).catch(err => {
-          console.log("Audio play gagal:", err);
+        const overlay = document.createElement('div');
+        overlay.id = 'hk-gemini-boot-intro';
+        Object.assign(overlay.style, {
+          position: 'fixed',
+          inset: '0',
+          width: '100vw',
+          height: '100vh',
+          zIndex: '2147483647',
+          pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '14px',
+          background:
+            'radial-gradient(circle at 50% 46%, rgba(251, 146, 60, 0.15) 0%, rgba(11, 11, 13, 0.98) 62%), linear-gradient(155deg, #08080a 0%, #171310 50%, #0b0b0d 100%)',
+          transition: 'opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1)',
         });
 
-        enterScreen.classList.add('opacity-0', 'pointer-events-none');
-        
+        const content = document.createElement('div');
+        Object.assign(content.style, {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '14px',
+          opacity: '0',
+          transform: 'translateY(10px) scale(0.985)',
+          filter: 'blur(4px)',
+          transition:
+            'opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 420ms cubic-bezier(0.16, 1, 0.3, 1), filter 420ms cubic-bezier(0.16, 1, 0.3, 1)',
+        });
+
+        const title = document.createElement('div');
+        Object.assign(title.style, {
+          fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+          fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
+          fontWeight: '700',
+          letterSpacing: '-0.025em',
+          lineHeight: '1.2',
+        });
+
+        const leftBrand = document.createElement('span');
+        leftBrand.textContent = 'Hamster Kaget ';
+        leftBrand.style.color = '#f4f4f6';
+
+        const rightBrand = document.createElement('span');
+        rightBrand.textContent = 'x Gemini AI';
+        rightBrand.style.color = '#fdba74';
+
+        title.appendChild(leftBrand);
+        title.appendChild(rightBrand);
+
+        const track = document.createElement('div');
+        Object.assign(track.style, {
+          width: '140px',
+          height: '2px',
+          background: '#26262c',
+          borderRadius: '2px',
+          overflow: 'hidden',
+        });
+
+        const fill = document.createElement('div');
+        Object.assign(fill.style, {
+          width: '100%',
+          height: '100%',
+          background: '#fb923c',
+          transform: 'scaleX(0)',
+          transformOrigin: 'left',
+          transition: 'transform 900ms cubic-bezier(0.22, 1, 0.36, 1)',
+        });
+
+        track.appendChild(fill);
+        content.appendChild(title);
+        content.appendChild(track);
+        overlay.appendChild(content);
+        document.body.appendChild(overlay);
+
+        // 0ms - 420ms: Entrance choreography
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.opacity = '1';
+            content.style.transform = 'translateY(0) scale(1)';
+            content.style.filter = 'blur(0)';
+          });
+        });
+
+        // 350ms - 1250ms: Soft-orange progress fill
         setTimeout(() => {
-          enterScreen.remove();
-          document.body.style.overflow = 'auto';
-          
-          mainContent.classList.remove('opacity-0', 'translate-y-10');
-          musicPlayer.classList.remove('opacity-0');
-        }, 800);
+          fill.style.transform = 'scaleX(1)';
+        }, 350);
+
+        // 1250ms - 1600ms: Exit and DOM cleanup
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          overlay.style.transform = 'scale(1.015)';
+          if (mainShell) mainShell.classList.add('is-visible');
+          if (audioDock) audioDock.classList.add('is-visible');
+
+          const cleanup = () => {
+            if (overlay.parentNode) overlay.remove();
+          };
+          overlay.addEventListener('transitionend', cleanup, { once: true });
+          setTimeout(cleanup, 400);
+        }, 1250);
+      })();
+
+      // 2. Avatar Multi-Stage Fallback
+      function handleAvatarFallback(img) {
+        if (!img.dataset.fallbackTried) {
+          img.dataset.fallbackTried = '1';
+          img.src =
+            'https://drive.google.com/thumbnail?id=1pVXiw_cFM32HH9tjMALwy-e6vuw2H8PA&sz=w400';
+          return;
+        }
+        img.style.display = 'none';
+        const fallback = document.getElementById('avatar-fallback');
+        if (fallback) fallback.style.display = 'flex';
+      }
+
+      // 3. Tab Switching Logic
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.tab;
+          tabButtons.forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+          tabPanels.forEach((panel) => {
+            panel.classList.toggle('is-active', panel.id === `panel-${target}`);
+          });
+        });
       });
 
-      playBtn.addEventListener('click', togglePlay);
+      // 4. One-Click Email Copy
+      const copyBtn = document.getElementById('copy-email-btn');
+      const copyIcon = document.getElementById('copy-icon');
+      const copyLabel = document.getElementById('copy-label');
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+          const email = 'warriorofadorable@gmail.com';
+          try {
+            await navigator.clipboard.writeText(email);
+            copyIcon.setAttribute('icon', 'lucide:check');
+            copyLabel.textContent = 'Copied';
+            setTimeout(() => {
+              copyIcon.setAttribute('icon', 'lucide:copy');
+              copyLabel.textContent = 'Copy Email';
+            }, 1800);
+          } catch {
+            window.location.href = `mailto:${email}`;
+          }
+        });
+      }
+
+      // 5. Audio Player Controller
+      const audio = document.getElementById('bg-music');
+      const audioDock = document.getElementById('audio-dock');
+      const playBtn = document.getElementById('play-btn');
+      const playIcon = document.getElementById('play-icon');
+      const muteBtn = document.getElementById('mute-btn');
+      const muteIcon = document.getElementById('mute-icon');
+      const audioStatus = document.getElementById('audio-status');
+      const progressRail = document.getElementById('progress-rail');
+      const progressFill = document.getElementById('progress-fill');
+      const timeReadout = document.getElementById('time-readout');
+
+      function formatTime(sec) {
+        if (!Number.isFinite(sec) || sec < 0) return '00:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      }
+
+      function setPlayingUI(playing) {
+        audioDock.classList.toggle('is-playing', playing);
+        playIcon.setAttribute('icon', playing ? 'lucide:pause' : 'lucide:play');
+        audioStatus.textContent = playing ? 'PLAYING' : 'PAUSED';
+      }
+
+      playBtn.addEventListener('click', () => {
+        if (audio.paused) {
+          audioStatus.textContent = 'LOADING';
+          audio
+            .play()
+            .then(() => setPlayingUI(true))
+            .catch(() => {
+              audioStatus.textContent = 'BLOCKED';
+            });
+        } else {
+          audio.pause();
+          setPlayingUI(false);
+        }
+      });
+
+      muteBtn.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        muteIcon.setAttribute('icon', audio.muted ? 'lucide:volume-x' : 'lucide:volume-2');
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${pct}%`;
+        timeReadout.textContent = formatTime(audio.currentTime);
+      });
+
+      progressRail.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const rect = progressRail.getBoundingClientRect();
+        const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+        audio.currentTime = ratio * audio.duration;
+      });
     </script>
   </body>
 </html>
